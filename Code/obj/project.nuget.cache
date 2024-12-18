@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "eodO6fe6aQM=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\fffaiwin10\\Documents\\s&box projects\\my_project\\Libraries\\YAAI\\Code\\yaai.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Unable to find project information for 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\Code\\Base Library.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
+      "libraryId": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\Code\\Base Library.csproj",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    }
+  ]
+}
