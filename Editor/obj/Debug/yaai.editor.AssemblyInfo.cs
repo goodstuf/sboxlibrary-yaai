@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("yaai.editor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c32437fc75c186829b75403f8b39ce142f7b374b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db0dc0167a913822bfbdec0e65b54b2474b4aee0")]
 [assembly: System.Reflection.AssemblyProductAttribute("yaai.editor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("yaai.editor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
