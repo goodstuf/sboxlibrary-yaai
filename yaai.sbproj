@@ -1,7 +1,13 @@
 {
   "Title": "YAAI",
   "Type": "library",
-  "Org": "local",
+  "Org": "twosockets",
   "Ident": "yaai",
-  "Schema": 1
+  "Schema": 1,
+  "IncludeSourceFiles": false,
+  "Resources": null,
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "IsWhitelistDisabled": false,
+  "Metadata": {}
 }
