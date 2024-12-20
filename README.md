@@ -1,1 +1,2 @@
-![Alt text](./thumbnails/thumbnail.jpg)
+![thumbnail](Assets/thumbnails/thumbnail.jpg)
+
