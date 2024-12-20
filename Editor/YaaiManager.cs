@@ -12,7 +12,6 @@ public static class YaaiManager
 	public static readonly int MaxWindows = 16;
 	public static readonly int SpawnRate = 3;
 	public static List<YaaiWindow> Windows = new(MaxWindows);
-
 	
 	[EditorEvent.FrameAttribute]
 	public static void Frame()
