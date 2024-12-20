@@ -13,6 +13,10 @@ public sealed class YaaiWindow : Window
 	public Task RunningTask;
 	private bool IsRunning = false;
 	private SoundHandle yaaiSound;
+
+	public readonly int MinimumSpeed = 20;
+	public readonly int MaximumSpeed= 70;
+	
 	public YaaiWindow()
 	{
 		ID = Count++;
@@ -52,7 +56,7 @@ public sealed class YaaiWindow : Window
 		Random random = new Random();
 		bool moveDown = random.Int( 0,1 ) == 1;
 		bool moveRight = random.Int( 0,1 ) == 1;
-		int Speed = random.Int(30, 100 );
+		int Speed = random.Int(MinimumSpeed, MaximumSpeed);
 		
 		while ( IsWindow && IsRunning )
 		{
@@ -94,7 +98,7 @@ public sealed class YaaiWindow : Window
 			}
 			
 			if (shouldChangeSpeed)
-				Speed = random.Int( 30, 100 );
+				Speed =  random.Int( MinimumSpeed, MaximumSpeed);
 			
 			WindowHelper.MoveWindow( hWnd, nx, ny, currentWidth, currentHeight, false);
 			await Task.Delay( 25 );
