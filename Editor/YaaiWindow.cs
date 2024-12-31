@@ -7,29 +7,32 @@ namespace YAAI;
 
 public sealed class YaaiWindow : Window
 {
-	public static int Count = 0;
-	public int ID = 0;
-
 	public Task RunningTask;
 	private bool IsRunning = false;
 	private SoundHandle yaaiSound;
-
-	public readonly int MinimumSpeed = 20;
-	public readonly int MaximumSpeed= 70;
 	
+	
+	public readonly int MinimumSpeed = 10;
+	public readonly int MaximumSpeed = 30;
+	
+	private Random random = new Random();
+	private float RandomSpeed => random.Float( MinimumSpeed, MaximumSpeed );
 	public YaaiWindow()
 	{
-		ID = Count++;
-		WindowTitle = $"YAAI - {ID} ";
+		WindowTitle = "YAAI";
 
 		Width = 250;
 		Height = 200;
 		HasMaximizeButton = false;
 		DeleteOnClose = true;
-		Layout = Layout.Column();
-		Layout.Add( new YaaiWidget(this ) );
+		WindowFlags = WindowFlags.WithFlag( WindowFlags.WindowStaysOnTopHint, true );
+		WindowFlags = WindowFlags.WithFlag( WindowFlags.MinimizeButton, false);
+		
+		new YaaiWidget(this );
+		
 		yaaiSound = Sound.PlayFile( SoundFile.Load( "yaaisound.mp3" ) );
 		Show();
+		
 		RunningTask = Move();
 	}
 
@@ -43,7 +46,6 @@ public sealed class YaaiWindow : Window
 		RunningTask.Wait();
 		RunningTask.Dispose();
 		
-		
 		YaaiManager.OnWindowClose( this );
 		
 		return base.OnClose();
@@ -53,54 +55,42 @@ public sealed class YaaiWindow : Window
 	{
 		IsRunning = true;
 		
-		Random random = new Random();
 		bool moveDown = random.Int( 0,1 ) == 1;
 		bool moveRight = random.Int( 0,1 ) == 1;
-		int Speed = random.Int(MinimumSpeed, MaximumSpeed);
+		float Speed = RandomSpeed;
 		
 		while ( IsWindow && IsRunning )
 		{
-			IntPtr hWnd = WindowHelper.FindWindow( null, WindowTitle );
-			if ( !WindowHelper.GetWindowRect( hWnd, out WindowHelper.RECT rect ) ) return;
-			
-            // Keep the window always on top
-			WindowHelper.SetWindowPos(hWnd, WindowHelper.HWND_TOPMOST, 0, 0, 0, 0, WindowHelper.SWP_NOMOVE | WindowHelper.SWP_NOSIZE | WindowHelper.SWP_SHOWWINDOW);
-			
-			int x = rect.Left;
-			int y = rect.Top;
-			int currentWidth = rect.Right - rect.Left;
-			int currentHeight = rect.Bottom - rect.Top;
-
-			int nx = moveRight ? x + Speed/2 : x - Speed/2;
-			int ny = moveDown ? y + Speed : y - Speed;
+			float nx = moveRight ? Position.x + Speed/2 : Position.x - Speed/2;
+			float ny = moveDown ? Position.y + Speed : Position.y - Speed;
 
 			bool shouldChangeSpeed = false;
-			if ( rect.Right >= ScreenGeometry.Width )
+			if ( Position.x + Width > ScreenGeometry.Width )
 			{
+				shouldChangeSpeed = true;
 				moveRight = false;
-				shouldChangeSpeed = true;
 			}
-			else if ( rect.Left <= 0 )
+			else if ( Position.x < 0)
 			{
-				moveRight = true;
 				shouldChangeSpeed = true;
+				moveRight = true;
+			}
+			
+			if ( Position.y + Height > ScreenGeometry.Height )
+			{
+				shouldChangeSpeed = true;
+				moveDown = false;
+			}
+			else if ( Position.y < 0)
+			{
+				shouldChangeSpeed = true;
+				moveDown = true;
 			}
 
-			if ( rect.Bottom >= ScreenGeometry.Height )
-			{
-				moveDown = false;
-				shouldChangeSpeed = true;
-			}
-			else if ( rect.Top <= 0 )
-			{
-				moveDown = true;
-				shouldChangeSpeed = true;
-			}
-			
-			if (shouldChangeSpeed)
-				Speed =  random.Int( MinimumSpeed, MaximumSpeed);
-			
-			WindowHelper.MoveWindow( hWnd, nx, ny, currentWidth, currentHeight, false);
+			if ( shouldChangeSpeed )
+				Speed = RandomSpeed;
+
+			Position = Position.WithX( nx ).WithY( ny );
 			await Task.Delay( 25 );
 		}
 		
