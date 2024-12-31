@@ -28,7 +28,7 @@ class YaaiWidget : Widget
 		
 		Update();
 		var img = color == 0 ? whiteimage : blackimage;
-		Paint.Draw(LocalRect.Shrink( 0,0, 390,280 ), img);
+		Paint.Draw(Parent.LocalRect, img);
 		
 	}
 }
