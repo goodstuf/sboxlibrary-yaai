@@ -8,7 +8,6 @@ namespace YAAI;
 public static class YaaiManager
 {
 	public static EditorMainWindow MainWindow;
-	
 	public static bool hasBegun { get; private set; } = false;
 	public static readonly int MaxWindows = 16;
 	public static readonly int SpawnRate = 3;
@@ -18,10 +17,23 @@ public static class YaaiManager
 	public static async void OnEditorCreated(EditorMainWindow mainWindow)
 	{
 		if ( hasBegun ) return;
-		MainWindow = mainWindow;
 		hasBegun = true;
-		await Task.Delay( 5000 );
 		
+		MainWindow = mainWindow;
+		await Task.Delay( 5000 );
+		mainWindow.Title = "YAAI";
+		var MainWidget = new YaaiWidget( SceneOverlayWidget.Active );
+		MainWidget.OnPaintOverride = () =>
+		{
+			if ( !MainWidget.colorchange ) return false;
+			var color = MainWidget.color == 0 ? "black" : "white";
+			MainWindow.SetStyles( $"background: {color}; color: {color};" );
+			
+			return false;
+		};
+		
+		MainWidget.Show();
+		await Task.Delay( 8000 );
 		SpawnWindows();
 		
 	}
@@ -36,7 +48,7 @@ public static class YaaiManager
 	{
 		for ( int i = 0; i < SpawnRate; i++ )
 		{
-			if ( Windows.Count+1 >= MaxWindows ) break;
+			if ( Windows.Count >= MaxWindows ) break;
 		
 			var window = new YaaiWindow();
 			Windows.Add( window );
