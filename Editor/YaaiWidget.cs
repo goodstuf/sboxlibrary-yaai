@@ -6,8 +6,8 @@ namespace YAAI;
 
 class YaaiWidget : Widget
 {
-	string blackimage = FileSystem.Mounted.GetFullPath("idiotblack.jpg");
-	string whiteimage = FileSystem.Mounted.GetFullPath("idiotwhite.jpg");
+	public static readonly string blackimage = FileSystem.Mounted.GetFullPath("idiotblack.jpg");
+	public static readonly string whiteimage = FileSystem.Mounted.GetFullPath("idiotwhite.jpg");
 
 	private SoundHandle yaaiSound;
 	internal RealTimeUntil colorchange;
@@ -16,9 +16,9 @@ class YaaiWidget : Widget
 	public YaaiWidget( Widget parent = null )
 	{
 		Parent = parent;
+		Size = Parent.Size;
+		
 		colorchange = 1;
-		
-		
 		yaaiSound = Sound.PlayFile( SoundFile.Load( "yaaisound.mp3" ) );
 	}
 
