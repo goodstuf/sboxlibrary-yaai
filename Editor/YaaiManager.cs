@@ -9,7 +9,7 @@ public static class YaaiManager
 {
 	public static EditorMainWindow MainWindow;
 	
-	public static bool hasBegun = false;
+	public static bool hasBegun { get; private set; } = false;
 	public static readonly int MaxWindows = 16;
 	public static readonly int SpawnRate = 3;
 	public static List<YaaiWindow> Windows = new(MaxWindows);
@@ -21,6 +21,7 @@ public static class YaaiManager
 		MainWindow = mainWindow;
 		hasBegun = true;
 		await Task.Delay( 5000 );
+		
 		SpawnWindows();
 		
 	}
@@ -31,8 +32,7 @@ public static class YaaiManager
 		OnEditorCreated(MainWindow);
 	}
 
-
-	public static void SpawnWindows()
+	static void SpawnWindows()
 	{
 		for ( int i = 0; i < SpawnRate; i++ )
 		{

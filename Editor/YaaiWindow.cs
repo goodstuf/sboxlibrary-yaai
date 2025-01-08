@@ -9,8 +9,6 @@ public sealed class YaaiWindow : Window
 {
 	public Task RunningTask;
 	private bool IsRunning = false;
-	private SoundHandle yaaiSound;
-	
 	
 	public readonly int MinimumSpeed = 10;
 	public readonly int MaximumSpeed = 30;
@@ -29,25 +27,18 @@ public sealed class YaaiWindow : Window
 		WindowFlags = WindowFlags.WithFlag( WindowFlags.MinimizeButton, false);
 		
 		new YaaiWidget(this );
-		
-		yaaiSound = Sound.PlayFile( SoundFile.Load( "yaaisound.mp3" ) );
 		Show();
-		
 		RunningTask = Move();
 	}
 
 	protected override bool OnClose()
 	{
-		yaaiSound.Stop(  );
-		yaaiSound.Dispose();
-		
 		// Dispose of Task
 		IsRunning = false;
 		RunningTask.Wait();
 		RunningTask.Dispose();
 		
 		YaaiManager.OnWindowClose( this );
-		
 		return base.OnClose();
 	}
 

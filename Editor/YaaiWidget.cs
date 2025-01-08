@@ -9,6 +9,7 @@ class YaaiWidget : Widget
 	string blackimage = FileSystem.Mounted.GetFullPath("idiotblack.jpg");
 	string whiteimage = FileSystem.Mounted.GetFullPath("idiotwhite.jpg");
 
+	private SoundHandle yaaiSound;
 	internal RealTimeUntil colorchange;
 	internal int color = 0;
 
@@ -16,6 +17,9 @@ class YaaiWidget : Widget
 	{
 		Parent = parent;
 		colorchange = 1;
+		
+		
+		yaaiSound = Sound.PlayFile( SoundFile.Load( "yaaisound.mp3" ) );
 	}
 
 	protected override void OnPaint()
@@ -26,9 +30,17 @@ class YaaiWidget : Widget
 			colorchange = 1;
 		}
 		
-		Update();
 		var img = color == 0 ? whiteimage : blackimage;
 		Paint.Draw(Parent.LocalRect, img);
 		
+		Update();
+	}
+
+	public override void OnDestroyed()
+	{
+		base.OnDestroyed();
+		
+		yaaiSound.Stop(  );
+		yaaiSound.Dispose();
 	}
 }
